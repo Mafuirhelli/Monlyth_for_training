@@ -4,6 +4,11 @@ from .models import Question, Choice
 from django.template import loader
 from django.urls import reverse
 from django.views import generic
+from django.http import HttpResponse, Http404
+from django.template import TemplateDoesNotExist
+from django.template.loader import get_template
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 
 
 class IndexView(generic.ListView):
@@ -37,3 +42,16 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def main(request):
+    return render(request, 'polls/main.html')
+
+
+class BBLoginView(LoginView):
+    template_name = 'polls/login.html'
+
+
+@login_required
+def profile(request):
+    return render(request, 'polls/profile.html')
