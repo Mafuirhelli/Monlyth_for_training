@@ -13,3 +13,6 @@ urlpatterns = [
     path('account/login', views.BBLoginView.as_view(), name='login'),
     path('account/profile/', views.profile, name='profile'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
